@@ -1,10 +1,10 @@
 package travel.dao.impl;
 
-import cn.itcast.travel.dao.UserDao;
-import cn.itcast.travel.domain.User;
-import cn.itcast.travel.util.JDBCUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import travel.dao.UserDao;
+import travel.domain.User;
+import travel.util.JDBCUtils;
 
 public class UserDaoImpl implements UserDao {
     private JdbcTemplate template=new JdbcTemplate(JDBCUtils.getDataSource());

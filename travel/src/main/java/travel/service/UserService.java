@@ -1,6 +1,7 @@
 package travel.service;
 
-import cn.itcast.travel.domain.User;
+
+import travel.domain.User;
 
 public interface UserService {
     /**

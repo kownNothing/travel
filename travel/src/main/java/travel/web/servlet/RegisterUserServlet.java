@@ -1,12 +1,11 @@
 package travel.web.servlet;
 
-import cn.itcast.travel.domain.ResultInfo;
-import cn.itcast.travel.domain.User;
-import cn.itcast.travel.service.UserService;
-import cn.itcast.travel.service.impl.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.beanutils.BeanUtils;
-
+import travel.domain.ResultInfo;
+import travel.domain.User;
+import travel.service.UserService;
+import travel.service.impl.UserServiceImpl;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

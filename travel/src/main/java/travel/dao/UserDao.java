@@ -1,6 +1,7 @@
 package travel.dao;
 
-import cn.itcast.travel.domain.User;
+
+import travel.domain.User;
 
 public interface UserDao {
 

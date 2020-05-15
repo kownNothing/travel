@@ -1,12 +1,13 @@
 package travel.service.impl;
 
-import cn.itcast.travel.dao.UserDao;
-import cn.itcast.travel.dao.impl.UserDaoImpl;
-import cn.itcast.travel.define.ErroCode;
-import cn.itcast.travel.domain.User;
-import cn.itcast.travel.service.UserService;
-import cn.itcast.travel.util.MailUtils;
-import cn.itcast.travel.util.UuidUtil;
+
+import travel.dao.UserDao;
+import travel.dao.impl.UserDaoImpl;
+import travel.define.ErroCode;
+import travel.domain.User;
+import travel.service.UserService;
+import travel.util.MailUtils;
+import travel.util.UuidUtil;
 
 public class UserServiceImpl implements UserService {
     private UserDao userDao=new UserDaoImpl();

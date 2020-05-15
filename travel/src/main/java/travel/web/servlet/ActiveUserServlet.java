@@ -1,8 +1,9 @@
 package travel.web.servlet;
 
-import cn.itcast.travel.define.ErroCode;
-import cn.itcast.travel.service.UserService;
-import cn.itcast.travel.service.impl.UserServiceImpl;
+
+import travel.define.ErroCode;
+import travel.service.UserService;
+import travel.service.impl.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
