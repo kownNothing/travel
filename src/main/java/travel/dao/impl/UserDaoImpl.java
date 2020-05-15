@@ -66,6 +66,18 @@ public class UserDaoImpl implements UserDao {
         template.update(sql,user.getUid());
     }
 
+    @Override
+    public User findUserByIDAndPassword(int uid, String password) {
+        String sql= "select * from tab_user where uid = ? and password = ?";
+        User user=null;
+        try{
+
+        }catch (Exception e){
+
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         User u=new User();
         u.setUsername("lisi");
@@ -78,4 +90,6 @@ public class UserDaoImpl implements UserDao {
         UserDao dao=new UserDaoImpl();
         dao.saveUser(u);
     }
+
+
 }

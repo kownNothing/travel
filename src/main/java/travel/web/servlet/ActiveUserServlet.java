@@ -4,7 +4,6 @@ package travel.web.servlet;
 import travel.define.ErroCode;
 import travel.service.UserService;
 import travel.service.impl.UserServiceImpl;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

@@ -30,12 +30,14 @@ public class RegisterUserServlet extends HttpServlet {
         String server_checkCose=(String)req.getSession().getAttribute("CHECKCODE_SERVER");
         req.getSession().removeAttribute("CHECKCODE_SERVER");//用完就直接销毁验证码，以防止验证码可重用
         ResultInfo info=new ResultInfo();
+        resp.setContentType("application/json;charset=utf-8");
+
         if(user_check==null||!user_check.equalsIgnoreCase(server_checkCose)){
             info.setFlag(false);
             info.setErrorMsg("验证码错误");
             ObjectMapper mapper=new ObjectMapper();
             String json=mapper.writeValueAsString(info);
-            resp.setContentType("application/json;charset=utf-8");
+
             resp.getWriter().write(json);
             return;
         }
@@ -65,7 +67,7 @@ public class RegisterUserServlet extends HttpServlet {
         //序列号为jason
         ObjectMapper mapper=new ObjectMapper();
         String json=mapper.writeValueAsString(info);
-        resp.setContentType("application/json;charset=utf-8");
+//        resp.setContentType("application/json;charset=utf-8");
         resp.getWriter().write(json);
     }
 }

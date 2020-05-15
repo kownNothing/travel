@@ -42,4 +42,10 @@ public class UserServiceImpl implements UserService {
         }
         return ErroCode.Fail_active;
     }
+
+    @Override
+    public boolean login(User tryLoginUser) {
+        User user=userDao.findUserByIDAndPassword(tryLoginUser.getUid(),tryLoginUser.getPassword());
+        return false;
+    }
 }
