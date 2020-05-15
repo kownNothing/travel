@@ -64,7 +64,6 @@ public class UserDaoImpl implements UserDao {
     public void updateStatus(User user) {
         String sql="update tab_user set status = 'Y' where uid = ?";
         template.update(sql,user.getUid());
-
     }
 
     public static void main(String[] args) {
