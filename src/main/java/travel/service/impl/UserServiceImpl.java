@@ -3,7 +3,7 @@ package travel.service.impl;
 
 import travel.dao.UserDao;
 import travel.dao.impl.UserDaoImpl;
-import travel.define.ErroCode;
+import travel.define.ErrorCode;
 import travel.domain.User;
 import travel.service.UserService;
 import travel.util.MailUtils;
@@ -37,15 +37,23 @@ public class UserServiceImpl implements UserService {
         if(user!=null){
             userDao.updateStatus(user);
             if("y".equalsIgnoreCase(user.getStatus()))
-                return ErroCode.Repeat_active;
+                return ErrorCode.Repeat_active;
             return 1;
         }
-        return ErroCode.Fail_active;
+        return ErrorCode.Fail_active;
     }
 
     @Override
-    public boolean login(User tryLoginUser) {
-        User user=userDao.findUserByIDAndPassword(tryLoginUser.getUid(),tryLoginUser.getPassword());
-        return false;
+    public int login(User tryLoginUser) {
+        User user=userDao.findUserByUsernameAndPassword(tryLoginUser.getUsername(),tryLoginUser.getPassword());
+        if(user==null){
+            return ErrorCode.Fail_Login;
+        }else {
+            if(user.getStatus().equalsIgnoreCase("N")){
+                return ErrorCode.Account_Not_Active;
+            }
+            return 1;
+        }
+
     }
 }

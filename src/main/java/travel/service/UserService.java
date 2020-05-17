@@ -13,5 +13,5 @@ public interface UserService {
 
     int active(String code);
 
-    boolean login(User tryLoginUser);
+    int login(User tryLoginUser);
 }

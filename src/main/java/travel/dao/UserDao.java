@@ -13,5 +13,5 @@ public interface UserDao {
 
     void updateStatus(User user);
 
-    User findUserByIDAndPassword(int uid, String password);
+    User findUserByUsernameAndPassword(String username, String password);
 }

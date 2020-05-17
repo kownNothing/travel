@@ -2,6 +2,7 @@ package travel.web.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.beanutils.BeanUtils;
+import travel.define.ErrorCode;
 import travel.domain.ResultInfo;
 import travel.domain.User;
 import travel.service.UserService;
@@ -20,8 +21,10 @@ import java.util.Map;
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String userCheckCode=(String)req.getAttribute("check");
+        System.out.println("=====玩家尝试登录");
+        String userCheckCode=(String)req.getParameter("check");
         String serverCheckCode=(String)req.getSession().getAttribute("CHECKCODE_SERVER");
+        req.getSession().removeAttribute("CHECKCODE_SERVER");//用完就直接销毁验证码，以防止验证码可重用
         ResultInfo resultInfo=new ResultInfo();
         ObjectMapper mapper=new ObjectMapper();
         resp.setContentType("application/json;charset=utf-8");
@@ -29,6 +32,7 @@ public class LoginServlet extends HttpServlet {
         if(userCheckCode==null||!userCheckCode.equalsIgnoreCase(serverCheckCode)){
             resultInfo.setFlag(false);
             resultInfo.setErrorMsg("验证码错误");
+            System.out.println("验证码信息"+userCheckCode+"     "+serverCheckCode);
             String json=mapper.writeValueAsString(resultInfo);
             resp.getWriter().write(json);
             return;
@@ -45,13 +49,25 @@ public class LoginServlet extends HttpServlet {
         }
 //        super.doPost(req, resp);
         UserService userService=new UserServiceImpl();
-        boolean flag=userService.login(tryLoginUser);
-        if(flag){
+        int returnCode=userService.login(tryLoginUser);
+        if(returnCode==1){
+            tryLoginUser.setPassword(null);
+            req.getSession().setAttribute("user",tryLoginUser);
+
             resultInfo.setFlag(true);
-            System.out.println("用户登录成功 用户ID"+tryLoginUser.getUid());
-        }else {
+            System.out.println("用户登录成功");
+            String json=mapper.writeValueAsString(resultInfo);
+            resp.getWriter().write(json);
+        }else if(returnCode== ErrorCode.Fail_Login){
+            System.out.println("帐号或密码错误，登录失败");
             resultInfo.setFlag(false);
             resultInfo.setErrorMsg("登录失败，账号或密码输入错误");
+            String json=mapper.writeValueAsString(resultInfo);
+            resp.getWriter().write(json);
+        }else if(returnCode==ErrorCode.Account_Not_Active){
+            System.out.println("账号尚未激活");
+            resultInfo.setFlag(false);
+            resultInfo.setErrorMsg("登录失败，账号尚未激活");
             String json=mapper.writeValueAsString(resultInfo);
             resp.getWriter().write(json);
         }

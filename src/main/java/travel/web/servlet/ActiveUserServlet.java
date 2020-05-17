@@ -1,7 +1,7 @@
 package travel.web.servlet;
 
 
-import travel.define.ErroCode;
+import travel.define.ErrorCode;
 import travel.service.UserService;
 import travel.service.impl.UserServiceImpl;
 import javax.servlet.ServletException;
@@ -23,7 +23,7 @@ public class ActiveUserServlet extends HttpServlet {
             String msg=null;
             if(statusCode==1){
                 msg="激活成功，请<a href='http://localhost/travel/login.html'>登录</a>";
-            }else if(statusCode== ErroCode.Repeat_active){
+            }else if(statusCode== ErrorCode.Repeat_active){
                 msg="请勿重复注册";
             }else {
                 msg="激活失败，请联系管理员";

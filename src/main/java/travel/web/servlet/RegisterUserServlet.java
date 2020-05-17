@@ -33,6 +33,7 @@ public class RegisterUserServlet extends HttpServlet {
         resp.setContentType("application/json;charset=utf-8");
 
         if(user_check==null||!user_check.equalsIgnoreCase(server_checkCose)){
+            System.out.println("验证码信息"+user_check+"     "+server_checkCose);
             info.setFlag(false);
             info.setErrorMsg("验证码错误");
             ObjectMapper mapper=new ObjectMapper();
