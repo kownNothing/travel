@@ -124,7 +124,7 @@
     $(function () {
         $("#login_btn").click(function () {
             // if (checkUsername() && checkPassword() && checkCode()) {
-                $.post("loginServlet", $("#loginForm").serialize(), function (data) {
+                $.post("user/login", $("#loginForm").serialize(), function (data) {
                     // alert($("#loginForm").serialize());
                     if (data.flag) {
                         location.href = "index.html";

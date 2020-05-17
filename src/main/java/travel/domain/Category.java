@@ -18,6 +18,10 @@ public class Category implements Serializable {
         this.cname = cname;
     }
 
+    public Category(String cname){
+        this.cname=cname;
+    }
+
     @Override
     public String toString() {
         return "Category{" +

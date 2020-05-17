@@ -18,6 +18,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean register(User user) {
+        logger.info("userServiceImpl.register 用户注册,用户信息:"+user.toString());
         User u=userDao.findUserByUsername(user.getUsername());
         if(u!=null){//用户名存在
             return false;
@@ -25,8 +26,7 @@ public class UserServiceImpl implements UserService {
         user.setCode(UuidUtil.getUuid());
         user.setStatus("N");
         userDao.saveUser(user);
-
-        String content="<a href='http://localhost:/travel/activeUserServlet?code="+user.getCode()+"'>点击激活旅游网账户</a>";
+        String content="<a href='http://localhost:/travel/user/active?code="+user.getCode()+"'>点击激活旅游网账户</a>";
         MailUtils.sendMail(user.getEmail(),content,"激活");
         return true;
     }
