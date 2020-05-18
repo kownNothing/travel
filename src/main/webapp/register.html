@@ -129,7 +129,7 @@
 				$("#registerForm").submit(function () {
 					// return false;
 					if(checkUsername()&&checkPassword()&&checkEmail()&&checkCode()){
-						$.post("/travel/registerUserServlet",$(this).serialize(),function (data) {
+						$.post("user/register",$(this).serialize(),function (data) {
 							// alert(data);
 							if(data.flag){
 								//注册成功

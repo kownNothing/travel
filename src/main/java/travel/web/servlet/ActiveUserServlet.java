@@ -22,6 +22,7 @@ public class ActiveUserServlet extends HttpServlet {
             resp.setContentType("text/html;charset=utf-8");
             String msg=null;
             if(statusCode==1){
+
                 msg="激活成功，请<a href='http://localhost/travel/login.html'>登录</a>";
             }else if(statusCode== ErrorCode.Repeat_active){
                 msg="请勿重复注册";

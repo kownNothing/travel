@@ -1,7 +1,7 @@
 package travel.web.servlet.base;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 
 public class BaseServlet extends HttpServlet {
+    public Logger logger=Logger.getLogger(BaseServlet.class);
     /**
      * 根据请求的uri(/user/add)执行对应的servlet中的同名的方法
      * @param req
@@ -32,7 +33,7 @@ public class BaseServlet extends HttpServlet {
         super.service(req, resp);
     }
 
-    public void writeValue(Object obj,HttpServletResponse resp) throws IOException {
+    public void writeValueAsJson(Object obj,HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json;charset=utf-8");
         resp.getWriter().write(writeValueAsString(obj));
     }
