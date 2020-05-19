@@ -1,7 +1,9 @@
 package travel.dao;
 
+import travel.domain.Category;
 import travel.domain.Route;
-
+import travel.domain.RouteImg;
+import travel.domain.Seller;
 import java.util.List;
 
 public interface RouteDao {
@@ -12,7 +14,15 @@ public interface RouteDao {
      * @param limit
      * @return
      */
-    List<Route> findRouteLimitByCID(int cID,int index,int limit);
+    List<Route> findRouteLimitByCID(int cID, int index, int limit);
 
     int findCountByCID(int cID);
+
+    Route findRouteByRID(int rID);
+
+    Category findCategoryByCID(int cID);
+
+    Seller findSellerBySID(int sID);
+
+    List<RouteImg> findImgListByRID(int rID);
 }

@@ -16,8 +16,15 @@ import java.util.List;
 public class CategoryServlet extends BaseServlet {
     private CategoryService service=new CategoryServiceImpl();
 
+    /**
+     * 查询所有
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     public void findAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         List<Category> categories=service.findAll();
-        writeValueAsJson(categories,resp);
+        writeValue(categories,resp);
     }
 }

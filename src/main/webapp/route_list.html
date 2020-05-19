@@ -17,7 +17,7 @@
         <div class="contant">
             <div class="crumbs">
                 <img src="images/search.png" alt="">
-                <p>旅行网><span>搜索结果</span></p>
+                <p>黑马旅行><span>搜索结果</span></p>
             </div>
             <div class="xinxi clearfix">
                 <div class="left">
@@ -25,7 +25,7 @@
                         <span>商品信息</span>
                         <span class="jg">价格</span>
                     </div>
-                    <ul>
+                    <ul id="routes">
                         <li>
                             <div class="img"><img src="images/04-search_03.jpg" alt=""></div>
                             <div class="text1">
@@ -157,24 +157,11 @@
                     </ul>
                     <div class="page_num_inf">
                         <i></i> 共
-                        <span>12</span>页<span>132</span>条
+                        <span id="totalPage">12</span>页<span id="totalCount">132</span>条
                     </div>
                     <div class="pageNum">
-                        <ul>
-                            <li><a href="">首页</a></li>
-                            <li class="threeword"><a href="#">上一页</a></li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">6</a></li>
-                            <li><a href="#">7</a></li>
-                            <li><a href="#">8</a></li>
-                            <li><a href="#">9</a></li>
-                            <li><a href="#">10</a></li>
-                            <li class="threeword"><a href="javascript:;">下一页</a></li>
-                            <li class="threeword"><a href="javascript:;">末页</a></li>
+                        <ul id="pageSelect">
+
                         </ul>
                     </div>
                 </div>
@@ -234,22 +221,103 @@
     <div id="footer"></div>
     <!--导入布局js，共享header和footer-->
     <script type="text/javascript" src="js/include.js"></script>
-<script>
-    var str=location.search;
-    var cID=Number(str.substring(str.indexOf('=')+1));
+    <script>
+        $(function () {
+            let search=location.search;
 
-    $(function () {
-        loadPage(cID,1);
+            let cid=search.split("&")[0].split("=")[1];
+            loadPage(cid,1);
+        })
 
-        function loadPage(cID,pageIndex){
-            $.get("route/findPage",{cID:cID,pageIndex:pageIndex},function (data) {
 
+        function loadPage(cid,pageIndex){
+            $.get("route/findPage",{cID : cid,pageIndex:pageIndex},function (data) {
+
+                //分页工具条数据展示
+                $("#totalPage").html(data.pageCount);//总页码数
+                $("#totalCount").html(data.totalCount);//总记录数
+                data.pageIndex;//页码，第几页
+                data.routeCount;//每页条数
+
+                let lis="";
+                let first='<li><a onclick="javascript:loadPage('+cid+','+1+')" href="javascript:void(0)">首页</a></li>';
+                lis+=first;
+
+                let pre=data.pageIndex-1==0?1:data.pageIndex-1;
+                let prePage='<li class="threeword"><a onclick="javascript:loadPage('+cid+','+pre+')" href="javascript:void(0)">上一页</a></li>';
+
+                lis+=prePage;
+
+                /*
+                     页码一种展示10个，前5后4展示,和百度分页效果
+                 */
+                let begin=1;
+
+                let end=data.pageCount;
+
+                if(data.pageCount>10){//页码超过10页
+                    begin=data.pageIndex-5;
+                    end=data.pageIndex+4;
+                    if(begin<1){
+                        begin=1;
+                        end=10;
+                    }
+
+                    if(end>data.pageCount){
+                        end=data.pageCount;
+                        begin=end-9;
+                    }
+                }
+                for(let i=begin;i<=end;i++){
+                    let li='';
+                    if(data.pageIndex==i){
+                        li='<li class="curPage" onclick="javascript:loadPage('+cid+','+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
+                    }else{
+                        li='<li onclick="javascript:loadPage('+cid+','+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
+                    }
+
+                    lis+=li;
+                }
+
+                let nextPage='<li class="threeword"><a href="javascript:;">下一页</a></li>';
+                lis+=nextPage;
+                let lastPage='<li class="threeword"><a href="javascript:;">末页</a></li>';
+                lis+=lastPage;
+
+                $("#pageSelect").html(lis);
+                let routesHtml="";
+                //展示数据
+
+
+
+                for(let i=1;i<data.list.length;i++){
+                    let route=data.list[i];
+                    let li='                        <li>\n' +
+                        '                            <div class="img"><img style="width: 299px" src="'+route.rimage+'" alt=""></div>\n' +
+                        '                            <div class="text1">\n' +
+                        '                                <p>'+route.rname+'</p>\n' +
+                        '                                <br/>\n' +
+                        '                                <p>'+route.routeIntroduce+'</p>\n' +
+                        '                            </div>\n' +
+                        '                            <div class="price">\n' +
+                        '                                <p class="price_num">\n' +
+                        '                                    <span>&yen;</span>\n' +
+                        '                                    <span>'+route.price+'</span>\n' +
+                        '                                    <span>起</span>\n' +
+                        '                                </p>\n' +
+                        '                                <p><a href="route_detail.html?rID='+route.rid+'">查看详情</a></p>\n' +
+                        '                            </div>\n' +
+                        '                        </li>';
+                    routesHtml+=li;
+
+                }
+
+                $("#routes").html(routesHtml);
+                //定位到页面顶部
+                window.scrollTo(0,0);//滚动到 0,0点 定点
             })
         }
-    })
-
-
-</script>
+    </script>
 </body>
 
 </html>

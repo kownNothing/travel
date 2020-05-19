@@ -2,9 +2,10 @@ package travel.service.impl;
 
 import travel.dao.RouteDao;
 import travel.dao.impl.RouteDaoImpl;
+import travel.domain.PageBean;
 import travel.domain.Route;
-import travel.domain.RoutePage;
 import travel.service.RouteService;
+
 import java.util.List;
 
 public class RouteServiceImpl implements RouteService {
@@ -33,42 +34,57 @@ public class RouteServiceImpl implements RouteService {
      * @return
      */
     @Override
-    public RoutePage findRoutePageByCID(int cID, int pageIndex, int pageCount) {
+    public PageBean<Route> findRoutePageByCID(int cID, int pageIndex, int pageCount) {
         int totalCount=this.findRouteCountByCID(cID);
-        RoutePage page=new RoutePage();
+        PageBean<Route> page=new PageBean<>();
         if(pageIndex<1) pageIndex=1;
         if(totalCount==0){
+            page.setTotalCount(0);
             page.setPageCount(0);
             page.setRouteCount(0);
+            page.setPageIndex(pageIndex);
             return page;
         }
 
         int beginIndex=0;
         int limitCount=pageCount;
         beginIndex=(pageIndex-1)*pageCount;
+
         int maxPage=0;
         if(totalCount%pageCount==0){//每一页都有pageCount条
             maxPage=totalCount/pageCount;
             Math.min(pageIndex, maxPage);
 
-            page.setPageCount(maxPage);
-            page.setRouteCount(pageCount);
+//            page.setPageCount(maxPage);
+//            page.setRouteCount(pageCount);
         }else{
             maxPage=totalCount/pageCount+1;
-            page.setPageCount(maxPage);
+//            page.setPageCount(maxPage);
             if(pageIndex<=maxPage-1){
-                page.setRouteCount(pageCount);
+//                page.setRouteCount(pageCount);
             }else{
                 Math.min(pageIndex, maxPage);
                 limitCount=totalCount%pageCount;
-                page.setRouteCount(limitCount);
+//                page.setRouteCount(limitCount);
             }
         }
+        page.setRouteCount(limitCount);
+        page.setPageCount(maxPage);
+        page.setTotalCount(totalCount);
         page.setPageIndex(Math.min(pageIndex, maxPage));
-        page.setRoutes(routeDao.findRouteLimitByCID(cID, beginIndex, limitCount));
+        page.setList(routeDao.findRouteLimitByCID(cID, beginIndex, limitCount));
 
         return page;
     }
 
-
+    @Override
+    public Route findRouteByRID(int rID) {
+        Route route=routeDao.findRouteByRID(rID);
+        if(route!=null){
+            route.setCategory(routeDao.findCategoryByCID(route.getCid()));
+            route.setSeller(routeDao.findSellerBySID(route.getSid()));
+            route.setRouteImgList(routeDao.findImgListByRID(rID));
+        }
+        return route;
+    }
 }

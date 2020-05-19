@@ -1,9 +1,11 @@
 package travel.web.servlet;
 
-import travel.domain.RoutePage;
+import travel.domain.PageBean;
+import travel.domain.Route;
 import travel.service.RouteService;
 import travel.service.impl.RouteServiceImpl;
 import travel.web.servlet.base.BaseServlet;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +24,7 @@ public class RouteServlet extends BaseServlet {
             cID=Integer.parseInt(cIDStr);
         }catch (Exception e){
             logger.error("route分页查询，查询类型错误 cID："+cIDStr);
-            writeValueAsJson("查询类型错误",resp);
+            writeValue("查询类型错误",resp);
             return;
         }
         int pageIndex=1;
@@ -30,8 +32,18 @@ public class RouteServlet extends BaseServlet {
         if(pageIndexStr!=null){
             pageIndex=Integer.parseInt(pageIndexStr);
         }
-        RoutePage page=service.findRoutePageByCID(cID,pageIndex,pageCount);
+        PageBean<Route> page=service.findRoutePageByCID(cID,pageIndex,pageCount);
 
-        writeValueAsJson(page,resp);
+        writeValue(page,resp);
+    }
+
+    public void findOne(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+        String rIDStr=req.getParameter("rID");
+        if(rIDStr==null||rIDStr.length()==0){
+            logger.error("route查询路线详情错误");
+        }
+
+        int rID=Integer.parseInt(rIDStr);
+
     }
 }

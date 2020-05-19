@@ -18,6 +18,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean register(User user) {
+        logger.info("userServiceImpl.register 用户注册,用户信息:"+user.toString());
         User u=userDao.findUserByUsername(user.getUsername());
         if(u!=null){//用户名存在
             return false;

@@ -3,14 +3,16 @@ package travel.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoutePage {
+public class PageBean<T> {
+    private int totalCount;//总条数
+
     private int pageIndex=0;//页数索引
 
     private int pageCount=0;//总共有几页
 
     private int routeCount=0;//当前页码的记录数
 
-    private List<Route> routes=new ArrayList<>();//route信息
+    private List<T> list=new ArrayList<>();//route信息
 
     public int getPageIndex() {
         return pageIndex;
@@ -36,21 +38,30 @@ public class RoutePage {
         this.routeCount = routeCount;
     }
 
-    public List<Route> getRoutes() {
-        return routes;
+    public int getTotalCount() {
+        return totalCount;
     }
 
-    public void setRoutes(List<Route> routes) {
-        this.routes = routes;
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public List<T> getList() {
+        return list;
+    }
+
+    public void setList(List<T> list) {
+        this.list = list;
     }
 
     @Override
     public String toString() {
-        return "RoutePage{" +
-                "pageIndex=" + pageIndex +
+        return "PageBean{" +
+                "totalCount=" + totalCount +
+                ", pageIndex=" + pageIndex +
                 ", pageCount=" + pageCount +
                 ", routeCount=" + routeCount +
-                ", routes=" + routes +
+                ", list=" + list +
                 '}';
     }
 }
