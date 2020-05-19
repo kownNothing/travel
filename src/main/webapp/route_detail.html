@@ -17,7 +17,7 @@
         <div class="bread_box">
             <a href="/">首页</a>
             <span> &gt;</span>
-            <a href="#">国内游</a><span> &gt;</span>
+            <a id="category" href="#">国内游</a><span> &gt;</span>
             <a href="#">全国-曼谷6-7天自由行 泰国出境旅游 特价往返机票自由行二次确认</a>
         </div>
         <div class="prosum_box">
@@ -25,7 +25,7 @@
                 <dt>
                     <img alt="" class="big_img" src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m49788843d72171643297ccc033d9288ee.jpg">
                 </dt>
-                <dd>
+                <dd id="img_del">
                     <a class="up_img up_img_disable"></a>
                     <a title="" class="little_img" data-bigpic="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size4/201703/m40920d0669855e745d97f9ad1df966ebb.jpg">
                         <img src="http://www.jinmalvyou.com/Public/uploads/goods_img/img_size2/201703/m20920d0669855e745d97f9ad1df966ebb.jpg">
@@ -66,12 +66,12 @@
                     <p>地址 ： 传智播客黑马程序员</p>  
                 </div>
                 <div class="pros_price">
-                    <p class="price"><strong>¥2699.00</strong><span>起</span></p>
+                    <p id="route_price" class="price"><strong>¥2699.00</strong><span>起</span></p>
                     <p class="collect">
                         <a class="btn"><i class="glyphicon glyphicon-heart-empty"></i>点击收藏</a>
 
                         <a  class="btn already" disabled="disabled"><i class="glyphicon glyphicon-heart-empty"></i>点击收藏</a>
-                        <span>已收藏100次</span>
+                        <span id="collect_num">已收藏100次</span>
                     </p>
                 </div>        
             </div>
@@ -118,7 +118,19 @@
 
     $(document).ready(function() {
         $.get("route/findOne",{rID:rid},function (route) {
+            let imgs="";
+            imgs+='<a class="up_img up_img_disable"></a>';
+            for(let i=0;i<route.routeImgList.length;i++){
+                imgs+='                    <a title="" class="little_img" data-bigpic="'+route.routeImgList[i].bigPic+'">\n' +
+                    '                        <img src="'+route.routeImgList[i].smallPic+'">\n' +
+                    '                    </a>';
+            }
 
+            imgs+='<a class="down_img down_img_disable" style="margin-bottom: 0;"></a>';
+
+            $("#route_price").html('<strong>¥'+route.price+'</strong><span>起</span>');
+            $("#collect_num").html('已收藏'+route.count+'次');
+            $("#category").html(route.category.cname);
         });
 
 
