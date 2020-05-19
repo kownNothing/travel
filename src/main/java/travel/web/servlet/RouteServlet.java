@@ -44,6 +44,7 @@ public class RouteServlet extends BaseServlet {
         }
 
         int rID=Integer.parseInt(rIDStr);
-
+        Route route=service.findRouteByRID(rID);
+        writeValue(route,resp);
     }
 }
